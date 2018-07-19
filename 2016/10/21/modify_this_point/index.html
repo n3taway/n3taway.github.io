@@ -29,7 +29,7 @@
 <meta property="og:site_name" content="Wenwen">
 <meta property="og:description" content="封装函数 f，使 f 的 this 指向指定的对象function bindThis(f, oTarget) &amp;#123;	return f.bind(oTarget);    //返回了传入的函数  加括号传参调用&amp;#125; bindThis(function(a, b)&amp;#123;	return this.test + a + b&amp;#125;,&amp;#123;test: 1&amp;#125;)(2,">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-21T17:57:11.081Z">
+<meta property="og:updated_time" content="2018-07-19T14:49:43.079Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="修改 this 指向">
 <meta name="twitter:description" content="封装函数 f，使 f 的 this 指向指定的对象function bindThis(f, oTarget) &amp;#123;	return f.bind(oTarget);    //返回了传入的函数  加括号传参调用&amp;#125; bindThis(function(a, b)&amp;#123;	return this.test + a + b&amp;#125;,&amp;#123;test: 1&amp;#125;)(2,">
@@ -175,7 +175,7 @@
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
             <p>封装函数 <code>f</code>，使 <code>f</code> 的 <code>this</code> 指向指定的对象<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bindThis</span>(<span class="params">f, oTarget</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> f.bind(oTarget);    <span class="comment">//返回了传入的函数  加括号传参调用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">bindThis(<span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.test + a + b</span><br><span class="line">&#125;,&#123;<span class="attr">test</span>: <span class="number">1</span>&#125;)(<span class="number">2</span>, <span class="number">3</span>)&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">bindThis(<span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.test + a + b</span><br><span class="line">&#125;,&#123;<span class="attr">test</span>: <span class="number">1</span>&#125;)(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// const abc = bindThis(function(a, b)&#123;</span></span><br><span class="line"><span class="comment">// 	return this.test + a + b</span></span><br><span class="line"><span class="comment">// &#125;,&#123;test: 1&#125;)(2, 3)</span></span><br><span class="line"><span class="comment">// console.log(abc); //6</span></span><br></pre></td></tr></table></figure>
 <hr>
 
         </div>

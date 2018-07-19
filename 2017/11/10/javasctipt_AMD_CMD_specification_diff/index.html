@@ -14,25 +14,25 @@
     
     
     
-    <title>React 修改组件中的this指向 | Wenwen | 我温富超就是饿死，从这里跳下去也不会去做前端，emm前端真好玩～</title>
+    <title>React 的渲染机制 | Wenwen | 我温富超就是饿死，从这里跳下去也不会去做前端，emm前端真好玩～</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
     <meta name="keywords" content="React,前端框架">
-    <meta name="description" content="才入门时喜欢犯的错误//构造器中定义组件状态constructor()&amp;#123;  super()  this.state=&amp;#123;    value:22  &amp;#125;&amp;#125;// 原型方法handle()&amp;#123;  console.log(this.state.value);&amp;#125;render()&amp;#123;  return(  	  &amp;lt;p&amp;gt;  	    我组">
+    <meta name="description" content="render 在React的渲染机制中，只要组件中的state和props发生改变就会触发render更新ui   提升 React 效能：不要触发 render function虽然不必太过担心，但是 virtual DOM diff 也是需要执行时间的。虽然说速度很快，但再快也比不上完全不触发来的快，你说是吧。   你应该有听过shouldComponentUpdate这个 function，">
 <meta name="keywords" content="React,前端框架">
 <meta property="og:type" content="article">
-<meta property="og:title" content="React 修改组件中的this指向">
-<meta property="og:url" content="https://n3taway.github.io/2017/06/11/React_components_this/index.html">
+<meta property="og:title" content="React 的渲染机制">
+<meta property="og:url" content="https://n3taway.github.io/2017/11/10/javasctipt_AMD_CMD_specification_diff/index.html">
 <meta property="og:site_name" content="Wenwen">
-<meta property="og:description" content="才入门时喜欢犯的错误//构造器中定义组件状态constructor()&amp;#123;  super()  this.state=&amp;#123;    value:22  &amp;#125;&amp;#125;// 原型方法handle()&amp;#123;  console.log(this.state.value);&amp;#125;render()&amp;#123;  return(  	  &amp;lt;p&amp;gt;  	    我组">
+<meta property="og:description" content="render 在React的渲染机制中，只要组件中的state和props发生改变就会触发render更新ui   提升 React 效能：不要触发 render function虽然不必太过担心，但是 virtual DOM diff 也是需要执行时间的。虽然说速度很快，但再快也比不上完全不触发来的快，你说是吧。   你应该有听过shouldComponentUpdate这个 function，">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-24T04:24:07.884Z">
+<meta property="og:updated_time" content="2018-07-19T15:43:37.113Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="React 修改组件中的this指向">
-<meta name="twitter:description" content="才入门时喜欢犯的错误//构造器中定义组件状态constructor()&amp;#123;  super()  this.state=&amp;#123;    value:22  &amp;#125;&amp;#125;// 原型方法handle()&amp;#123;  console.log(this.state.value);&amp;#125;render()&amp;#123;  return(  	  &amp;lt;p&amp;gt;  	    我组">
+<meta name="twitter:title" content="React 的渲染机制">
+<meta name="twitter:description" content="render 在React的渲染机制中，只要组件中的state和props发生改变就会触发render更新ui   提升 React 效能：不要触发 render function虽然不必太过担心，但是 virtual DOM diff 也是需要执行时间的。虽然说速度很快，但再快也比不上完全不触发来的快，你说是吧。   你应该有听过shouldComponentUpdate这个 function，">
     
     <link rel="shortcut icon" href="/img/favicon.ico">
     <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
@@ -118,7 +118,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">React 修改组件中的this指向</div>
+        <div class="flex-col header-title ellipsis">React 的渲染机制</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -140,11 +140,11 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">React 修改组件中的this指向</h1>
+        <h1 class="title">React 的渲染机制</h1>
         <h5 class="subtitle">
             
-                <time datetime="2017-06-11T12:21:55.000Z" itemprop="datePublished" class="page-time">
-  2017-06-11
+                <time datetime="2017-11-10T14:13:54.000Z" itemprop="datePublished" class="page-time">
+  2017-11-10
 </time>
 
 
@@ -163,32 +163,62 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#才入门时喜欢犯的错误"><span class="post-toc-number">1.</span> <span class="post-toc-text">才入门时喜欢犯的错误</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#主动修改this"><span class="post-toc-number">2.</span> <span class="post-toc-text">主动修改this</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#render"><span class="post-toc-number">1.</span> <span class="post-toc-text">render</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#"><span class="post-toc-number"></span> <span class="post-toc-text">`</span></a>
         </nav>
     </aside>
 
 
-<article id="post-React_components_this"
+<article id="post-javasctipt_AMD_CMD_specification_diff"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">React 修改组件中的this指向</h1>
+        <h1 class="post-card-title">React 的渲染机制</h1>
         <div class="post-meta">
-            <time class="post-time" title="2017-06-11 20:21:55" datetime="2017-06-11T12:21:55.000Z"  itemprop="datePublished">2017-06-11</time>
+            <time class="post-time" title="2017-11-10 22:13:54" datetime="2017-11-10T14:13:54.000Z"  itemprop="datePublished">2017-11-10</time>
 
             
 
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h5 id="才入门时喜欢犯的错误"><a href="#才入门时喜欢犯的错误" class="headerlink" title="才入门时喜欢犯的错误"></a>才入门时喜欢犯的错误</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//构造器中定义组件状态</span></span><br><span class="line"><span class="keyword">constructor</span>()&#123;</span><br><span class="line">  <span class="keyword">super</span>()</span><br><span class="line">  <span class="keyword">this</span>.state=&#123;</span><br><span class="line">    value:<span class="number">22</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 原型方法</span></span><br><span class="line">handle()&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.state.value);</span><br><span class="line">&#125;</span><br><span class="line">render()&#123;</span><br><span class="line">  <span class="keyword">return</span>(</span><br><span class="line">  	  &lt;p&gt;</span><br><span class="line">  	    我组件&lt;button onClick=&#123;<span class="keyword">this</span>.handle&#125;&gt;按钮&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">  	    组件中的状态值:&#123;this.state.value&#125;</span></span><br><span class="line"><span class="regexp">  	  &lt;/</span>p&gt;</span><br><span class="line">  	) </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*点击按钮 Cannot read property 'state' of undefined */</span></span><br><span class="line"><span class="comment">// jsx中的this并没有指向类，所以报错</span></span><br></pre></td></tr></table></figure>
-<h5 id="主动修改this"><a href="#主动修改this" class="headerlink" title="主动修改this"></a>主动修改this</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//手动修改this指向，但有弊端。每次点击按钮都会用bind创建新的函数，浪费内存。</span></span><br><span class="line">&lt;p&gt;</span><br><span class="line">  我组件&lt;button onClick=&#123;<span class="keyword">this</span>.handle.bind(<span class="keyword">this</span>)&#125;&gt;按钮&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">  组件中的状态值:&#123;this.state.value&#125;</span></span><br><span class="line"><span class="regexp">&lt;/</span>p&gt;</span><br><span class="line"></span><br><span class="line">我们可以在组件初始化事改变<span class="keyword">this</span>的指向，这样只会返回一个函数</span><br><span class="line"><span class="keyword">constructor</span>()&#123;</span><br><span class="line">  <span class="keyword">super</span>()</span><br><span class="line">  <span class="keyword">this</span>.state=&#123;</span><br><span class="line">    value:<span class="number">22</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//改变事件this指向</span></span><br><span class="line">  <span class="keyword">this</span>.handle = <span class="keyword">this</span>.handle.bind(<span class="keyword">this</span>); </span><br><span class="line">&#125;</span><br><span class="line">这样在render函数中就可以像之前那样写了，不会报错。</span><br><span class="line">&lt;p&gt;</span><br><span class="line">  我组件&lt;button onClick=&#123;<span class="keyword">this</span>.handle&#125;&gt;按钮&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">  组件中的状态值:&#123;this.state.value&#125;</span></span><br><span class="line"><span class="regexp">&lt;/</span>p&gt;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>下面介绍一种更优雅的写法，嘿嘿~<br>利用箭头函数的特性this会自动绑定上下文。</p>
+            <h4 id="render"><a href="#render" class="headerlink" title="render"></a>render</h4><blockquote>
+<p>在React的渲染机制中，只要组件中的state和props发生改变就会触发render更新ui</p>
 </blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">handle=<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.state.value);</span><br><span class="line">&#125;</span><br><span class="line">&lt;p&gt;</span><br><span class="line">  我组件&lt;button onClick=&#123;<span class="keyword">this</span>.handle&#125;&gt;按钮&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">  组件中的状态值:&#123;this.state.value&#125;</span></span><br><span class="line"><span class="regexp">&lt;/</span>p&gt;</span><br></pre></td></tr></table></figure>
-<hr>
-
+<blockquote>
+<p>提升 React 效能：不要触发 render function<br>虽然不必太过担心，但是 virtual DOM diff 也是需要执行时间的。虽然说速度很快，但再快也比不上完全不触发来的快，你说是吧。</p>
+</blockquote>
+<blockquote>
+<p>你应该有听过shouldComponentUpdate这个 function，就是来做这件事的。如果你在这个 function 中回传 false，就不会重新触发 render function。</p>
+</blockquote>
+<blockquote>
+<p>不过这有点极端，因为通常不会永远都回传 false，除非你真的确定这个 component 完全不需要 re-render。</p>
+</blockquote>
+<blockquote>
+<p>比起这个，有一个更合理的判断基准是：<br>如果每一个 props 跟 state 都没有变，那就回传 false<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Content</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  shouldComponentUpdate(nextProps, nextState)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> !shallowEqual(<span class="keyword">this</span>.props, nextProps) || !shallowEqual(<span class="keyword">this</span>.state, nextState);</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render () &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &lt;div&gt;&#123;this.props.text&#125;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>这是出于效能上的考量。别忘了，你要执行这样的比较也是会吃资源的，尤其是在你的 object 很深很深的时候，要比较的东西可就多了，因此我们会倾向用shallowEqual，只要比较一层即可。</p>
+</blockquote>
+<blockquote>
+<p>PureComponent这个东西，其实就是 React 提供的另外一种元件，差别就是在于它自动帮你加上上面那一段的比较。如果你想看原始码的话，在这边：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (type.prototype &amp;&amp; type.prototype.isPureReactComponent) &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    !shallowEqual(oldProps, newProps) || !shallowEqual(oldState, newState)</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>「只要 state 跟 props 没变，就不会 re-render，PureComponent 就会比 Component 更有效率」。但其实还有另外一句话也是对的：「如果你的 state 或 props 『永远都会变』，那 PureComponent 并不会比较快」。</p>
+</blockquote>
+<p><code>所以这两种的使用时机差异在于：state 跟 props 到底常常会变还是不会变？</code></p>
+<blockquote>
+<p>别忘记了，shallowEqual也是需要执行时间的。</p>
+</blockquote>
+<blockquote>
+<p>已经知道 props 的比较每次都失败的话，那不如不要比还会来的比较快，所以在这个情形下，Component 会比 PureComponent 有效率，因为不用做shallowEqual。</p>
+</blockquote>
+<blockquote>
+<p>这就是我开头提到的需要特别注意的部分。不要以为你把每个 Component 都换成 PureComponent 就天下太平，App 变超快，效能提升好几倍。不去注意这些细节的话，就有可能把效能越弄越糟。</p>
+</blockquote>
+<blockquote>
+<p>最后再强调一次，如果你已经预期到某个 component 的 props 或是 state 会「很频繁变动」，那你根本不用换成 PureComponent，因为你实作之后反而会变得更慢。</p>
+</blockquote>
+<h2 id=""><a href="#" class="headerlink" title="`"></a>`</h2>
         </div>
 
         <blockquote class="post-copyright">
@@ -197,7 +227,7 @@
         
 
         
-        链接：<a href="/2017/06/11/React_components_this/" target="_blank" rel="external">https://n3taway.github.io/2017/06/11/React_components_this/</a>
+        链接：<a href="/2017/11/10/javasctipt_AMD_CMD_specification_diff/" target="_blank" rel="external">https://n3taway.github.io/2017/11/10/javasctipt_AMD_CMD_specification_diff/</a>
         
     </div>
     
@@ -224,7 +254,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://n3taway.github.io/2017/06/11/React_components_this/&title=《React 修改组件中的this指向》 — Wenwen&pic=https://n3taway.github.io/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://n3taway.github.io/2017/11/10/javasctipt_AMD_CMD_specification_diff/&title=《React 的渲染机制》 — Wenwen&pic=https://n3taway.github.io/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -234,22 +264,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://n3taway.github.io/2017/06/11/React_components_this/&title=《React 修改组件中的this指向》 — Wenwen&source=一只蹦达的前端狗" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://n3taway.github.io/2017/11/10/javasctipt_AMD_CMD_specification_diff/&title=《React 的渲染机制》 — Wenwen&source=一只蹦达的前端狗" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://n3taway.github.io/2017/06/11/React_components_this/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://n3taway.github.io/2017/11/10/javasctipt_AMD_CMD_specification_diff/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《React 修改组件中的this指向》 — Wenwen&url=https://n3taway.github.io/2017/06/11/React_components_this/&via=https://n3taway.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《React 的渲染机制》 — Wenwen&url=https://n3taway.github.io/2017/11/10/javasctipt_AMD_CMD_specification_diff/&via=https://n3taway.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://n3taway.github.io/2017/06/11/React_components_this/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://n3taway.github.io/2017/11/10/javasctipt_AMD_CMD_specification_diff/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -272,18 +302,18 @@
 <nav class="post-nav flex-row flex-justify-between">
   
     <div class="waves-block waves-effect prev">
-      <a href="/2017/11/10/javasctipt_AMD_CMD_specification_diff/" id="post-prev" class="post-nav-link">
+      <a href="/2017/12/11/create-react-app-proxy/" id="post-prev" class="post-nav-link">
         <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">React 的渲染机制</h4>
+        <h4 class="title">create-react-app脚手架跨域处理</h4>
       </a>
     </div>
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2017/03/19/React_Router_chuancan/" id="post-next" class="post-nav-link">
+      <a href="/2017/06/11/React_components_this/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">React_Router_路由传参</h4>
+        <h4 class="title">React 修改组件中的this指向</h4>
       </a>
     </div>
   
@@ -368,7 +398,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://n3taway.github.io/2017/06/11/React_components_this/&title=《React 修改组件中的this指向》 — Wenwen&pic=https://n3taway.github.io/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://n3taway.github.io/2017/11/10/javasctipt_AMD_CMD_specification_diff/&title=《React 的渲染机制》 — Wenwen&pic=https://n3taway.github.io/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -378,22 +408,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://n3taway.github.io/2017/06/11/React_components_this/&title=《React 修改组件中的this指向》 — Wenwen&source=一只蹦达的前端狗" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://n3taway.github.io/2017/11/10/javasctipt_AMD_CMD_specification_diff/&title=《React 的渲染机制》 — Wenwen&source=一只蹦达的前端狗" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://n3taway.github.io/2017/06/11/React_components_this/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://n3taway.github.io/2017/11/10/javasctipt_AMD_CMD_specification_diff/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《React 修改组件中的this指向》 — Wenwen&url=https://n3taway.github.io/2017/06/11/React_components_this/&via=https://n3taway.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《React 的渲染机制》 — Wenwen&url=https://n3taway.github.io/2017/11/10/javasctipt_AMD_CMD_specification_diff/&via=https://n3taway.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://n3taway.github.io/2017/06/11/React_components_this/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://n3taway.github.io/2017/11/10/javasctipt_AMD_CMD_specification_diff/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -404,7 +434,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://n3taway.github.io/2017/06/11/React_components_this/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://n3taway.github.io/2017/11/10/javasctipt_AMD_CMD_specification_diff/" alt="微信分享二维码">
 </div>
 
 

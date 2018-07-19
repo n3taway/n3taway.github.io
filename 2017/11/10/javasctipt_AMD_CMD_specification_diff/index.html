@@ -29,7 +29,7 @@
 <meta property="og:site_name" content="Wenwen">
 <meta property="og:description" content="render 在React的渲染机制中，只要组件中的state和props发生改变就会触发render更新ui   提升 React 效能：不要触发 render function虽然不必太过担心，但是 virtual DOM diff 也是需要执行时间的。虽然说速度很快，但再快也比不上完全不触发来的快，你说是吧。   你应该有听过shouldComponentUpdate这个 function，">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-19T15:43:37.113Z">
+<meta property="og:updated_time" content="2018-07-19T15:46:47.816Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React 的渲染机制">
 <meta name="twitter:description" content="render 在React的渲染机制中，只要组件中的state和props发生改变就会触发render更新ui   提升 React 效能：不要触发 render function虽然不必太过担心，但是 virtual DOM diff 也是需要执行时间的。虽然说速度很快，但再快也比不上完全不触发来的快，你说是吧。   你应该有听过shouldComponentUpdate这个 function，">
@@ -163,7 +163,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#render"><span class="post-toc-number">1.</span> <span class="post-toc-text">render</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#"><span class="post-toc-number"></span> <span class="post-toc-text">`</span></a>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#render"><span class="post-toc-number">1.</span> <span class="post-toc-text">render</span></a></li></ol>
         </nav>
     </aside>
 
@@ -194,14 +194,16 @@
 <p>不过这有点极端，因为通常不会永远都回传 false，除非你真的确定这个 component 完全不需要 re-render。</p>
 </blockquote>
 <blockquote>
-<p>比起这个，有一个更合理的判断基准是：<br>如果每一个 props 跟 state 都没有变，那就回传 false<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Content</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  shouldComponentUpdate(nextProps, nextState)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> !shallowEqual(<span class="keyword">this</span>.props, nextProps) || !shallowEqual(<span class="keyword">this</span>.state, nextState);</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render () &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &lt;div&gt;&#123;this.props.text&#125;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>比起这个，有一个更合理的判断基准是：<br>如果每一个 props 跟 state 都没有变，那就回传 false</p>
 </blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Content</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  shouldComponentUpdate(nextProps, nextState)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> !shallowEqual(<span class="keyword">this</span>.props, nextProps) || !shallowEqual(<span class="keyword">this</span>.state, nextState);</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render () &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &lt;div&gt;&#123;this.props.text&#125;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>这是出于效能上的考量。别忘了，你要执行这样的比较也是会吃资源的，尤其是在你的 object 很深很深的时候，要比较的东西可就多了，因此我们会倾向用shallowEqual，只要比较一层即可。</p>
 </blockquote>
 <blockquote>
-<p>PureComponent这个东西，其实就是 React 提供的另外一种元件，差别就是在于它自动帮你加上上面那一段的比较。如果你想看原始码的话，在这边：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (type.prototype &amp;&amp; type.prototype.isPureReactComponent) &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    !shallowEqual(oldProps, newProps) || !shallowEqual(oldState, newState)</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>PureComponent这个东西，其实就是 React 提供的另外一种元件，差别就是在于它自动帮你加上上面那一段的比较。如果你想看原始码的话，在这边：</p>
 </blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (type.prototype &amp;&amp; type.prototype.isPureReactComponent) &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    !shallowEqual(oldProps, newProps) || !shallowEqual(oldState, newState)</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>「只要 state 跟 props 没变，就不会 re-render，PureComponent 就会比 Component 更有效率」。但其实还有另外一句话也是对的：「如果你的 state 或 props 『永远都会变』，那 PureComponent 并不会比较快」。</p>
 </blockquote>
@@ -218,7 +220,8 @@
 <blockquote>
 <p>最后再强调一次，如果你已经预期到某个 component 的 props 或是 state 会「很频繁变动」，那你根本不用换成 PureComponent，因为你实作之后反而会变得更慢。</p>
 </blockquote>
-<h2 id=""><a href="#" class="headerlink" title="`"></a>`</h2>
+<hr>
+
         </div>
 
         <blockquote class="post-copyright">
